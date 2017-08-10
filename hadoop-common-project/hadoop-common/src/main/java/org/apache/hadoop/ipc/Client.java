@@ -1671,7 +1671,7 @@ public class Client implements AutoCloseable {
      * @return A ConnectionId instance
      * @throws IOException
      */
-    static ConnectionId getConnectionId(InetSocketAddress addr,
+    public static ConnectionId getConnectionId(InetSocketAddress addr,
         Class<?> protocol, UserGroupInformation ticket, int rpcTimeout,
         RetryPolicy connectionRetryPolicy, Configuration conf) throws IOException {
 
