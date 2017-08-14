@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-option java_package = "com.zte.dap.zdh.qingfeng.ipc.rpc.protobuf";
+option java_package = "qingfeng.ipc.rpc.protobuf";
 option java_outer_classname = "RpcServiceProtos";
 option java_generic_services = true;
 option java_generate_equals_and_hash = true;
-package hadoop.common;
+package hadoop.common.qingfeng;
 
-import "test.proto";
+import "qingfeng/test.proto";
 
 
 /**

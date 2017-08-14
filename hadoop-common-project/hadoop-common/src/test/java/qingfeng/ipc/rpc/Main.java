@@ -1,9 +1,9 @@
-package com.zte.dap.zdh.qingfeng.ipc.rpc;
+package qingfeng.ipc.rpc;
 
 import com.google.protobuf.BlockingService;
 import com.google.protobuf.ServiceException;
-import com.zte.dap.zdh.qingfeng.ipc.rpc.protobuf.Protos;
-import com.zte.dap.zdh.qingfeng.ipc.rpc.protobuf.RpcServiceProtos;
+import qingfeng.ipc.rpc.protobuf.Protos;
+import qingfeng.ipc.rpc.protobuf.RpcServiceProtos;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.ProtobufRpcEngine;
 import org.apache.hadoop.ipc.RPC;

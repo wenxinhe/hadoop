@@ -1,8 +1,8 @@
-package com.zte.dap.zdh.qingfeng.ipc.rpc;
+package qingfeng.ipc.rpc;
 
 import com.google.protobuf.RpcController;
 import com.google.protobuf.ServiceException;
-import com.zte.dap.zdh.qingfeng.ipc.rpc.protobuf.Protos;
+import qingfeng.ipc.rpc.protobuf.Protos;
 
 /**
  * Created by hewenxin on 17-8-11.

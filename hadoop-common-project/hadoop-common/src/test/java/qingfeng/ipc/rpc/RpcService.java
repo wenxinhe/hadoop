@@ -1,6 +1,6 @@
-package com.zte.dap.zdh.qingfeng.ipc.rpc;
+package qingfeng.ipc.rpc;
 
-import com.zte.dap.zdh.qingfeng.ipc.rpc.protobuf.RpcServiceProtos;
+import qingfeng.ipc.rpc.protobuf.RpcServiceProtos;
 import org.apache.hadoop.ipc.ProtocolInfo;
 
 /**

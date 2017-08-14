@@ -1,4 +1,4 @@
-package com.zte.dap.zdh.qingfeng.ipc;
+package qingfeng.ipc;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
