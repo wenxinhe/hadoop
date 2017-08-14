@@ -413,6 +413,8 @@
                 <includes>
                   <include>test.proto</include>
                   <include>test_rpc_service.proto</include>
+                  <include>qingfeng/test.proto</include>
+                  <include>qingfeng/test_rpc_service.proto</include>
                 </includes>
               </source>
             </configuration>
