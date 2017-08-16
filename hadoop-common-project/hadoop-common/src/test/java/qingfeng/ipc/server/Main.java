@@ -1,4 +1,4 @@
-package qingfeng.ipc;
+package qingfeng.ipc.server;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
@@ -7,6 +7,7 @@ import org.apache.hadoop.ipc.Client;
 import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.ipc.Server;
 import org.apache.hadoop.net.NetUtils;
+import org.apache.hadoop.util.Tool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,21 +17,35 @@ import java.net.InetSocketAddress;
 /**
  * Created by hewenxin on 17-8-10.
  */
-public class IPCDemo {
+public class Main implements Tool {
 
-  private static final Logger LOG = LoggerFactory.getLogger(IPCDemo.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-  private static final String ADDRESS = "0.0.0.0";
-  private static final int PORT = 0;
-  private static final int HANDLER_COUNT = 10;
-  private static final int RPC_TIMEOUT = 50;
+  private final String ADDRESS = "0.0.0.0";
+  private final int PORT = 0;
+  private final int HANDLER_COUNT = 10;
+  private final int RPC_TIMEOUT = 50;
+  private Configuration conf;
 
   public static void main(String[] args) throws IOException {
-    Configuration conf = new Configuration();
-    try(
+    Main main = new Main();
+    main.setConf(new Configuration());
+    main.run(args);
+  }
+
+  private static Client.ConnectionId getConnectionId(
+      Server server, int rpcTimeout, Configuration conf) throws IOException {
+    InetSocketAddress addr = NetUtils.getConnectAddress(server);
+    return Client.ConnectionId.getConnectionId(
+        addr, null, null, rpcTimeout, null, conf);
+  }
+
+  @Override
+  public int run(String[] args) throws IOException {
+    try (
         // 创建Server
         DemoServer server = new DemoServer(
-        ADDRESS, PORT, LongWritable.class, HANDLER_COUNT, conf)) {
+            ADDRESS, PORT, LongWritable.class, HANDLER_COUNT, conf)) {
 
       // 启动
       server.start();
@@ -47,13 +62,17 @@ public class IPCDemo {
 
       LOG.warn("response: " + call);
     }
+    return 0;
   }
 
-  private static Client.ConnectionId getConnectionId(
-      Server server, int rpcTimeout, Configuration conf) throws IOException {
-    InetSocketAddress addr = NetUtils.getConnectAddress(server);
-    return Client.ConnectionId.getConnectionId(
-        addr, null, null, rpcTimeout, null, conf);
+  @Override
+  public void setConf(Configuration conf) {
+    this.conf = conf;
+  }
+
+  @Override
+  public Configuration getConf() {
+    return conf;
   }
 
   private static class DemoServer extends Server implements AutoCloseable {
@@ -69,7 +88,7 @@ public class IPCDemo {
     public Writable call(RPC.RpcKind rpcKind, String protocol, Writable param,
                          long receiveTime) throws Exception {
       LOG.warn("ipc called!");
-      return new LongWritable(((LongWritable)param).get() + 1);
+      return new LongWritable(((LongWritable) param).get() + 1);
     }
 
     @Override
