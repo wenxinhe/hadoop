@@ -1,0 +1,60 @@
+@startuml
+
+Abstract class Server
+class Listener
+class ConnectionQueue
+class Reader
+class Handler
+Abstract class Server
+class CallQueue
+
+Server "1" *- "1" Listener
+Listener "1" *- "readThreads *" Reader
+Reader "1" *-- "1" ConnectionQueue
+ConnectionQueue "1" - "*" Connection
+Connection "*" -- "1" CallQueue
+CallQueue "1" -- "*" RpcCall
+
+Server "1" -- "1" CallQueue
+(Server, CallQueue) .. "handlerCount *" Handler
+
+
+abstract class Server {
+{abstract} call()
+}
+
+class CallQueue {
+put()
+take()
+}
+
+class ConnectionQueue {
+put()
+take()
+}
+
+class Listener {
+run()
+doAccept()
+doRead()
+}
+
+class Reader {
+run()
+addConnection()
+doRunLoop()
+}
+
+class Handler {
+run()
+}
+
+class Connection {
+readAndProcess()
+}
+
+class RpcCall {
+call()
+}
+
+@enduml

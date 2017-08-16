@@ -1,0 +1,16 @@
+@startuml
+Client -> Listener: accept()
+Listener -> Reader: addConnection()
+Reader -> ConnectionQueue: put()
+Reader -> Reader: run()
+Reader -> ConnectionQueue: take()
+ConnectionQueue --> Reader: connection
+Reader -> Connection: readAndProcess()
+Connection -> Server: internalQueueCall()
+Server -> CallQueue: put()
+Handler -> Handler: run()
+Handler -> CallQueue: take()
+CallQueue --> Handler: call
+Handler -> Call: call()
+Call -> Server: call()
+@enduml
