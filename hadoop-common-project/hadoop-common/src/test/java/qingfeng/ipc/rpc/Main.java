@@ -2,6 +2,7 @@ package qingfeng.ipc.rpc;
 
 import com.google.protobuf.BlockingService;
 import com.google.protobuf.ServiceException;
+import org.apache.hadoop.util.Tool;
 import qingfeng.ipc.rpc.protobuf.Protos;
 import qingfeng.ipc.rpc.protobuf.RpcServiceProtos;
 import org.apache.hadoop.conf.Configuration;
@@ -17,16 +18,23 @@ import java.net.InetSocketAddress;
 /**
  * Created by hewenxin on 17-8-11.
  */
-public class Main {
+public class Main implements Tool {
 
   private final static Logger LOG = LoggerFactory.getLogger(Main.class);
 
-  private final static String ADDRESS = "0.0.0.0";
-  private final static int PORT = 0;
-  private static RPC.Server server;
+  private final String ADDRESS = "0.0.0.0";
+  private final int PORT = 0;
+  private RPC.Server server;
+  private Configuration conf;
 
   public static void main(String[] args) throws IOException, ServiceException {
-    Configuration conf = new Configuration();
+    Main main = new Main();
+    main.setConf(new Configuration());
+    main.run(args);
+  }
+
+  @Override
+  public int run(String[] args) throws IOException, ServiceException {
     // Set RPC engine to protobuf RPC engine
     RPC.setProtocolEngine(conf, RpcService.class, ProtobufRpcEngine.class);
 
@@ -57,5 +65,16 @@ public class Main {
     } finally {
       server.stop();
     }
+    return 0;
+  }
+
+  @Override
+  public void setConf(Configuration conf) {
+    this.conf = conf;
+  }
+
+  @Override
+  public Configuration getConf() {
+    return conf;
   }
 }
