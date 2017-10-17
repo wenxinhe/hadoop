@@ -1,2 +1,2 @@
-protoc -I=. --java_out=../../java/ ./test.proto ./test_rpc_service.proto
+protoc -I=. --java_out=../../java/ ./my.proto ./my_rpc_service.proto
 

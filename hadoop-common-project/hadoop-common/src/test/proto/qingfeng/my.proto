@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 
-option java_package = "qingfeng.ipc.rpc.protobuf";
-option java_outer_classname = "Protos";
+option java_package = "qingfeng.ipc.rpc.protobuf"; // s
+option java_outer_classname = "MyProtos";
 option java_generate_equals_and_hash = true;
-package hadoop.common.qingfeng;
 
 message EmptyRequestProto {
 }

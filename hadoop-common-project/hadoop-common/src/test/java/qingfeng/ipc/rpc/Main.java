@@ -3,8 +3,9 @@ package qingfeng.ipc.rpc;
 import com.google.protobuf.BlockingService;
 import com.google.protobuf.ServiceException;
 import org.apache.hadoop.util.Tool;
-import qingfeng.ipc.rpc.protobuf.Protos;
-import qingfeng.ipc.rpc.protobuf.RpcServiceProtos;
+import qingfeng.ipc.rpc.protobuf.MyProtos.EchoRequestProto;
+import qingfeng.ipc.rpc.protobuf.MyProtos.EchoResponseProto;
+import qingfeng.ipc.rpc.protobuf.MyRpcServiceProtos;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.ProtobufRpcEngine;
 import org.apache.hadoop.ipc.RPC;
@@ -36,16 +37,16 @@ public class Main implements Tool {
   @Override
   public int run(String[] args) throws IOException, ServiceException {
     // Set RPC engine to protobuf RPC engine
-    RPC.setProtocolEngine(conf, RpcService.class, ProtobufRpcEngine.class);
+    RPC.setProtocolEngine(conf, MyRpcService.class, ProtobufRpcEngine.class);
 
     try {
       // Create server side implementation
-      BlockingService service = RpcServiceProtos.ProtobufRpcProto
-          .newReflectiveBlockingService(new RpcServicePBImpl());
+      BlockingService service = MyRpcServiceProtos.MyProtobufRpcProto
+          .newReflectiveBlockingService(new MyRpcServicePBImpl());
 
       // Get RPC server for server side implementation
       RPC.Builder builder = new RPC.Builder(conf)
-          .setProtocol(RpcService.class)
+          .setProtocol(MyRpcService.class)
           .setInstance(service).setBindAddress(ADDRESS).setPort(PORT);
 
       // Setup Server
@@ -55,12 +56,12 @@ public class Main implements Tool {
       InetSocketAddress serverAddr = NetUtils.getConnectAddress(server);
 
       // Get Client
-      RpcService client = RPC.getProxy(RpcService.class, 0, serverAddr, conf);
+      MyRpcService client = RPC.getProxy(MyRpcService.class, 0, serverAddr, conf);
 
       // Call
-      Protos.EchoRequestProto echoRequest = Protos.EchoRequestProto.newBuilder()
+      EchoRequestProto echoRequest = EchoRequestProto.newBuilder()
           .setMessage("hello").build();
-      Protos.EchoResponseProto echoResponse = client.echo(null, echoRequest);
+      EchoResponseProto echoResponse = client.echo(null, echoRequest);
       LOG.warn(echoResponse.getMessage());
     } finally {
       server.stop();

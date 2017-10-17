@@ -16,18 +16,16 @@
  * limitations under the License.
  */
 option java_package = "qingfeng.ipc.rpc.protobuf";
-option java_outer_classname = "RpcServiceProtos";
+option java_outer_classname = "MyRpcServiceProtos";
 option java_generic_services = true;
 option java_generate_equals_and_hash = true;
-package hadoop.common.qingfeng;
 
-import "qingfeng/test.proto";
-
+import "qingfeng/my.proto";
 
 /**
  * A protobuf service for use in tests
  */
-service ProtobufRpcProto {
+service MyProtobufRpcProto {
   rpc ping(EmptyRequestProto) returns (EmptyResponseProto);
   rpc echo(EchoRequestProto) returns (EchoResponseProto);
 }
