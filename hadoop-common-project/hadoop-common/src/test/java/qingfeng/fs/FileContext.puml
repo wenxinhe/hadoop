@@ -1,0 +1,38 @@
+@startuml
+
+together {
+abstract class AbstractFileSystem
+class ChRootedFs
+class ViewFs
+class Hdfs
+
+AbstractFileSystem <|-- Hdfs
+AbstractFileSystem <|-- ViewFs
+AbstractFileSystem <|-- ChRootedFs
+}
+
+together {
+abstract class InodeTree
+abstract class INode
+class INodeDir
+class INodeLink
+}
+
+INode <|-- INodeDir
+INode <|-- INodeLink
+INodeDir "1" *- "*" INode
+
+ViewFs "1" *- "1" InodeTree
+InodeTree "1" *- "1" INodeDir
+ChRootedFs "1" --* "1" INodeLink
+
+Hdfs "1" -* "1" ChRootedFs
+Hdfs "1" *-- "1" DFSClient
+
+class FileContext
+class FSLinkResolver
+
+FileContext  *-- FSLinkResolver
+FSLinkResolver *- AbstractFileSystem
+
+@enduml
